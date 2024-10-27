@@ -1,0 +1,6 @@
+@SeguroMedicoAPI_HostAddress = http://localhost:5199
+
+GET {{SeguroMedicoAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

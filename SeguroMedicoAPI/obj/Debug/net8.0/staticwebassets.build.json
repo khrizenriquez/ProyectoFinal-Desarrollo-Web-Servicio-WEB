@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "kznYvzf9sWBuCOTD6yxVvDvHO9xndCb3+2t4xWCHeGQ=",
+  "Source": "SeguroMedicoAPI",
+  "BasePath": "_content/SeguroMedicoAPI",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
