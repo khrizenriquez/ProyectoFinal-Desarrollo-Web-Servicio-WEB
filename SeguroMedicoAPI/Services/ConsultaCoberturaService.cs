@@ -29,7 +29,6 @@ namespace SeguroMedicoAPI.Services
 
             if (!coberturaValida) return "Sin Cobertura";
 
-            // Generar un número de autorización y registrar la consulta
             var numeroAutorizacion = Guid.NewGuid().ToString();
             _context.ConsultasCobertura.Add(new ConsultaCobertura
             {
