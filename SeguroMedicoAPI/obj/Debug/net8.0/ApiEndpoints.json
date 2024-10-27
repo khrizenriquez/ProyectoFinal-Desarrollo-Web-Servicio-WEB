@@ -1,0 +1,44 @@
+[
+  {
+    "ContainingType": "SeguroMedicoAPI.Controllers.ConsultaController",
+    "Method": "ConsultaAfiliado",
+    "RelativePath": "api/consulta/afiliado",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "consulta",
+        "Type": "SeguroMedicoAPI.DTOs.ConsultaAfiliadoDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.String",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SeguroMedicoAPI.Controllers.ConsultaController",
+    "Method": "ConsultaProveedor",
+    "RelativePath": "api/consulta/proveedor",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "consulta",
+        "Type": "SeguroMedicoAPI.DTOs.ConsultaProveedorDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  }
+]
