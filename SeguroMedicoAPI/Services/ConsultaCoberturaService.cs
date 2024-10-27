@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using SeguroMedicoAPI.Data;
 using SeguroMedicoAPI.DTOs;
 using SeguroMedicoAPI.Models;
@@ -16,31 +17,87 @@ namespace SeguroMedicoAPI.Services
 
         public async Task<string> ConsultaProveedorAsync(ConsultaProveedorDTO consulta)
         {
+            string respuestaHttp;
+            string numeroAutorizacion = null;
+
             var proveedor = await _context.Proveedores.FindAsync(consulta.NitProveedor);
-            if (proveedor == null) return null;
+            if (proveedor == null)
+            {
+                respuestaHttp = "404 Proveedor no encontrado";
+                return respuestaHttp;
+            }
 
             var paciente = await _context.Pacientes
                 .Where(p => p.CodigoPaciente == consulta.CodigoPaciente && p.FechaNacimiento == consulta.FechaNacimiento)
                 .FirstOrDefaultAsync();
-            if (paciente == null) return null;
+            if (paciente == null)
+            {
+                respuestaHttp = "404 Paciente no encontrado";
+                return respuestaHttp;
+            }
 
             var coberturaValida = await _context.PagosPrima
                 .AnyAsync(p => p.CodigoPaciente == consulta.CodigoPaciente && p.MesCoberturaCancelado >= consulta.FechaCobertura);
 
-            if (!coberturaValida) return "Sin Cobertura";
+            if (coberturaValida)
+            {
+                numeroAutorizacion = Guid.NewGuid().ToString();
+                respuestaHttp = "200 OK";
+            }
+            else
+            {
+                respuestaHttp = "404 Sin Cobertura";
+            }
 
-            var numeroAutorizacion = Guid.NewGuid().ToString();
-            _context.ConsultasCobertura.Add(new ConsultaCobertura
+            if (coberturaValida)
+            {
+                var consultaCobertura = new ConsultaCobertura
+                {
+                    NITProveedor = consulta.NitProveedor,
+                    CodigoPaciente = consulta.CodigoPaciente,
+                    FechaCoberturaConsultada = consulta.FechaCobertura,
+                    Respuesta = respuestaHttp,
+                    FechaConsulta = DateTime.Now,
+                    NumeroAutorizacion = numeroAutorizacion
+                };
+
+                _context.ConsultasCobertura.Add(consultaCobertura);
+                await _context.SaveChangesAsync();
+            }
+
+            return numeroAutorizacion ?? respuestaHttp;
+        }
+
+        private void GuardarConsulta(ConsultaProveedorDTO consulta, string respuestaHttp, string numeroAutorizacion)
+        {
+            var consultaCobertura = new ConsultaCobertura
             {
                 NITProveedor = consulta.NitProveedor,
                 CodigoPaciente = consulta.CodigoPaciente,
                 FechaCoberturaConsultada = consulta.FechaCobertura,
-                Respuesta = numeroAutorizacion,
-                FechaConsulta = DateTime.Now
-            });
-            await _context.SaveChangesAsync();
+                Respuesta = respuestaHttp,
+                FechaConsulta = DateTime.Now,
+                NumeroAutorizacion = numeroAutorizacion
+            };
 
-            return numeroAutorizacion;
+            _context.ConsultasCobertura.Add(consultaCobertura);
+            _context.SaveChanges();
+        }
+
+        private void GuardarConsultaSinProveedor(ConsultaProveedorDTO consulta, string respuestaHttp)
+        {
+            var consultaCobertura = new ConsultaCobertura
+            {
+                NITProveedor = "No encontrado",
+                CodigoPaciente = consulta.CodigoPaciente,
+                FechaCoberturaConsultada = consulta.FechaCobertura,
+                Respuesta = respuestaHttp,
+                FechaConsulta = DateTime.Now,
+                NumeroAutorizacion = null
+            };
+
+            _context.ConsultasCobertura.Add(consultaCobertura);
+            _context.SaveChanges();
         }
 
         public async Task<bool> ConsultaAfiliadoAsync(ConsultaAfiliadoDTO consulta)

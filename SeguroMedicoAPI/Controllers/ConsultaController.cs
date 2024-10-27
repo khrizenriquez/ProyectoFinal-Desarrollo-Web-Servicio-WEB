@@ -18,16 +18,16 @@ namespace SeguroMedicoAPI.Controllers
 
         // POST: api/consulta/proveedor
         [HttpPost("proveedor")]
-        public async Task<ActionResult<string>> ConsultaProveedor([FromBody] ConsultaProveedorDTO consulta)
+        public async Task<IActionResult> ConsultaProveedor([FromBody] ConsultaProveedorDTO consulta)
         {
             var resultado = await _consultaCoberturaService.ConsultaProveedorAsync(consulta);
 
-            if (resultado == null)
+            if (resultado == "404 Proveedor no encontrado" || resultado == "404 Paciente no encontrado" || resultado == "404 Sin Cobertura")
             {
-                return NotFound("Sin Cobertura");
+                return NotFound(new { mensaje = resultado });
             }
 
-            return Ok(resultado);
+            return Ok(new { numeroAutorizacion = resultado });
         }
 
         // POST: api/consulta/afiliado
