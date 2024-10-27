@@ -105,10 +105,22 @@ namespace SeguroMedicoAPI.Services
             var paciente = await _context.Pacientes
                 .Where(p => p.CodigoPaciente == consulta.CodigoPaciente && p.FechaNacimiento == consulta.FechaNacimiento)
                 .FirstOrDefaultAsync();
-            if (paciente == null) return false;
 
-            return await _context.PagosPrima
+            if (paciente == null)
+            {
+                Console.WriteLine("Paciente no encontrado");
+                return false;
+            }
+
+            bool tieneCobertura = await _context.PagosPrima
                 .AnyAsync(p => p.CodigoPaciente == consulta.CodigoPaciente && p.MesCoberturaCancelado >= DateTime.Today);
+
+            if (!tieneCobertura)
+            {
+                Console.WriteLine("Sin Cobertura: No se encontró un pago de prima con cobertura para la fecha actual.");
+            }
+
+            return tieneCobertura;
         }
     }
 }
