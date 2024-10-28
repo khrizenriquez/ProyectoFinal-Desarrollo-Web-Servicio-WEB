@@ -1,5 +1,25 @@
 # Proyecto Final: .NET /Web Services/JAVA EE
 
+### Local env:
+- Swagger: http://localhost:5199/swagger/index.html
+- Afiliados: http://localhost:5199/api/consulta/afiliado
+- Proveedor: http://localhost:5199/api/consulta/proveedor
+
+### Body
+- Afiliados
+`{
+  "codigoPaciente": 1,
+  "fechaNacimiento": "1990-05-14"
+}`
+
+- Proveedor
+`{
+  "nitProveedor": "NIT002",
+  "codigoPaciente": 2,
+  "fechaNacimiento": "1985-08-22T00:00:00Z",
+  "fechaCobertura": "2022-05-01T00:00:00Z"
+}`
+
 Servicio WEB (Arquitectura .NET): El sistema deberá de contar con un servicio WEB que permita la consulta de datos en línea para cualquier proveedor de servicios o cualquier afiliado del seguro. 
 
 El servicio WEB deberá contar con dos métodos web:
