@@ -38,3 +38,39 @@ El sistema deberá validar que el paciente tenga un pago de prima para la fecha 
 
 
 2. Consulta de Afiliado: Para poder consultar si el afiliado al seguro médico se encuentra activo. El sistema deberá solicitar como parámetros de entrada el Código del Paciente y la fecha de nacimiento, y deberá retornar “Activo” o “Sin Cobertura”. (La fecha de cobertura para determinar si el afiliado se encuentra activo es la fecha actual)
+
+
+### Imágenes de ejemplo
+![image](https://github.com/user-attachments/assets/0c99c242-6c2d-46c1-92e4-af665fc90efc)
+
+![image](https://github.com/user-attachments/assets/07a71d35-bf94-48bc-957c-0ad927af8aa3)
+
+![image](https://github.com/user-attachments/assets/d952ef87-a748-4f2e-81a8-c6ec2ba3446a)
+
+![image](https://github.com/user-attachments/assets/0b1b18f4-8bec-45f2-b75b-a733af2b8140)
+
+### Curl de ejemplo
+#### Con cobertura
+`curl --request POST \
+  --url http://localhost:5199/api/consulta/afiliado \
+  --header 'Content-Type: application/json' \
+  --header 'User-Agent: insomnia/10.1.1' \
+  --data '{
+  "codigoPaciente": 1,
+  "fechaNacimiento": "1990-05-14"
+}
+'`
+#### Sin Cobertura
+`curl --request POST \
+  --url http://localhost:5199/api/consulta/afiliado \
+  --header 'Content-Type: application/json' \
+  --header 'User-Agent: insomnia/10.1.1' \
+  --data '{
+  "codigoPaciente": 1,
+  "fechaNacimiento": "1990-05-15"
+}
+'`
+
+
+
+
