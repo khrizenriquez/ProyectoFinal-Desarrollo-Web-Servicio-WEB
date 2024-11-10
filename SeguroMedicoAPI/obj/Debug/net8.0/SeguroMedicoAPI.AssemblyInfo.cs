@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SeguroMedicoAPI")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ab7d5d788c6623cd07c58bbf642d4d94d52ee34b")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+62e430637bab9beb32780c4e23075867472474ba")]
 [assembly: System.Reflection.AssemblyProductAttribute("SeguroMedicoAPI")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SeguroMedicoAPI")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
